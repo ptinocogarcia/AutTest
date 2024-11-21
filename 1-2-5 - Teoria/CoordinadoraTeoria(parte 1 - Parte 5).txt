@@ -1,0 +1,168 @@
+Parte 1: Consultas SQL sobre Modelos de Datos (Departamentos y Empleados)
+
+Se tienen dos tablas: Departamentos y Empleados
+
+Con los modelos de datos de Departamentos y Empleados previamente descritos, realiza las
+siguientes consultas SQL.
+
+1. Determine el valor total que recibirán los empleados del departamento 3000 en su
+próximo pago, que incluye un reconocimiento adicional único de $500.000. El pago
+regular se compone de salario y comisión. La información debe estar ordenada
+alfabéticamente por empleado.
+
+Query: SELECT nomEmp, salEmp + comisionE as "Pago regular", 500000 as "Reconocimiento adicional unico",
+       salEmp + comisionE + 500000 as "Valor Total"
+	   FROM Empleados
+	   WHERE codDepto = '3000'
+	   ORDER BY nomEmp;
+
+-----------------------------------------------------------------------------------------------
+
+2. Identifique los departamentos que tienen más de 3 empleados y el número de
+empleados en cada uno. Ordene los resultados de mayor a menor cantidad de
+empleados.
+
+Query: SELECT d.nombre, COUNT(e.id) AS numero_empleados FROM departamentos d 
+       JOIN empleados e ON d.id = e.departamento_id 
+	   GROUP BY d.nombre HAVING COUNT(e.id) > 3 
+	   ORDER BY numero_empleados DESC;
+
+-----------------------------------------------------------------------------------------------
+
+
+3. Verifique si existen empleados que no estén asignados a algún departamento existente.
+
+Query: SELECT nomEmp 
+       FROM empleados
+	   WHERE codDepto IS NULL;
+
+-----------------------------------------------------------------------------------------------
+
+4. Encuentre el departamento con la nómina total más alta, considerando salario y
+comisión.
+
+Query: SELECT codDepto, salEmp + comisionE as "Nomina total" 
+       FROM departamentos
+	   ORDER BY codDepto DESC; 
+	   
+-----------------------------------------------------------------------------------------------
+
+5. Identifique los tres directores con más personas a cargo.
+
+Query: SELECT * 
+	   FROM empleados
+	   WHERE cargoE = 'Director'
+	   LIMIT 3;
+	   
+
+-----------------------------------------------------------------------------------------------
+
+6. Determine el salario promedio general de la empresa, así como el departamento con el
+salario promedio más alto y el valor correspondiente.
+
+Query: SELECT codDepto, avg(salEmp)
+       FROM departamentos, empleados; 
+	   
+	   
+**************************************************************************************************************
+
+Seccion preguntas teóricas
+
+1. Explique las diferencias entre pruebas unitarias, de integración y de extremo a extremo
+(E2E).
+R/ Las pruebas Unitarias corresponden a dichas pruebas que se realizan sobre el código fuente del sistema y son ejecutadas por los desarrolladores,
+Las pruebas de integración corresponden a dichas pruebas cuyo proceso son realizdas y ejecutadas entre los diferentes componentes del sistema y la 
+relación existente entre cada uno de ellos.
+Con respecto a las pruebas de extremo a extremo, tambien llamadas "End 2 End", se caracterizan por la ejecución de pruebas las cuales pretenden validar un flujo de
+trabajo desde su inicio hasta su final, evaluando los resultados del flujo como tal a través de los diferentes módulos que lo componen.
+------------------------------------
+2. ¿Qué es un framework de automatización de pruebas? Mencione ejemplos que haya
+utilizado.
+R/ Un framework de automatización de pruebas es una colección de herramientas y directrices que resultan útiles a la hora de diseñar, crear y ejecutar casos de prueba. 
+Estas directrices incluyen normas de codificación, prácticas y procesos para el manejo de datos de prueba y de repositorios, entre otros, las cuales son de vital importancia
+para las pruebas automatizadas.
+Un ejemplo de framework de automatización es Selenium. Es un framework de automatización de pruebas de código abierto para las pruebas sobre aplicaciones web. 
+Este framework es un conjunto de herramientas de pruebas basadas en el framework de Java, el cual puede ser integrado a un IDE que soporte este lenguaje o cualquier otro como Python para 
+la escritura de sus casos de prueba.
+------------------------------------
+3. Defina el concepto de "Pirámide de Pruebas" y su importancia.
+R/ la piramide de pruebas establece un nivel de rigurosidad al momento de ejecutar las pruebas teniendo en cuenta la necesidad, por ejemplo deben ser más solidas las pruebas unitarias, 
+ya que de ellas depende el éxito del sistema, por lo cual se localiza en la base de la piramide y a medida que se vaya ascendiendo las pruebas tenderán a ser menos rigurosas. En cada nivel 
+se presentan las herramientas adecuadas para su ejecución.
+------------------------------------
+4. ¿Qué es la sincronización en pruebas automatizadas y por qué es esencial?
+R/ la sincronización de eventos y la gestión del tiempo de espera son retos comunes que pueden provocar fallos en los scripts de prueba. Estos problemas ocurren cuando se intentan realizar 
+operaciones con elementos web que no están presentes en la página o no están en un estado adecuado. Para abordar estos retos y mejorar la estabilidad y la precisión de los scripts de prueba, 
+es importante: Sincronizar los eventos, Gestionar el tiempo de espera.
+------------------------------------
+5. ¿Cómo integraría pruebas automatizadas en un proceso de integración continua (CI)?
+Un proceso de integración continua típico incluye los siguientes pasos:
+
+Revise el código fuente de la rama principal.
+Ejecute pruebas unitarias automatizadas.
+Ejecute la secuencia de compilación y decida si desea aceptar o rechazar la compilación.
+Implemente en el entorno de prueba/control de calidad.
+Implemente en el entorno de producción/en vivo.
+
+Una alternativa para estas acciones es la creación de pipelines en entornos de DevOps. Un ejemplo claro es lo utilizado en Azure DevOps.
+------------------------------------
+6. Discuta las diferencias entre pruebas de carga y de estrés, proporcionando ejemplos.
+Las pruebas de carga y las pruebas de estrés son dos tipos de pruebas de rendimiento que se utilizan para evaluar el funcionamiento de las aplicaciones de software bajo diferentes condiciones:
+Pruebas de carga
+Simulan el tráfico normal y determinan si la aplicación puede manejar un volumen de tráfico esperado. Ejemplo, la evaluación del rendimiento de un formulario de inicio de sesión de un modulo
+de contabilidad en una hora normal 
+Pruebas de estrés
+Simulan el tráfico extremo y determinan los límites superiores de la capacidad del sistema. Un ejemplo puede ser la misma evaluación hacia el módulo de inventario, pero en horas pico críticas
+para la empresa, es decir al momento de cargar, descargar articulos nuevos y haya carga demandante de procesos al mismo tiempo en horas pico.
+------------------------------------
+7. ¿Cómo gestionaría la automatización de pruebas para una aplicación web con
+componentes dinámicos?
+Se deben tener en cuenta los localizadores de los objetos, manejar los tiempos de espera de forma adecuada, ya que habrán componentes que no se despliegan en cierto tiempo. 
+Lo mas importante es tener en cuenta el identificador del componente estático sobre el cual se puede ubicar, para que el autómata pueda retener el control sobre el cuando sea llamado.
+------------------------------------
+8. Explique la importancia de gestionar dependencias en la automatización de pruebas y
+cómo hacerlo en frameworks como Maven o Gradle.
+La importancia de gestionar dependencias radica en que no se encuentran descargadas en el sistema en el momento de utilizarse, sino que son accedidas desde un repositorio externo, lo cual
+redunda en generar portabilidad al momento de recrear el proyecto en uno o mas dispositivos. al llamar a dichas dependencias se accede a los jars necesarios para que el proyecto pueda trabajarse.
+Un ejemplo es creando un archivo llamado "Build.gradle". Al crear este archivo, se colocan las dependencias necesarias para acceder a las librerias adecuadas.
+
+Ejemplo de build.gradle:
+plugins {
+    id 'java'
+    id "net.serenity-bdd.serenity-gradle-plugin" version "3.5.0"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.3'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.4'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.0'
+    runtimeOnly 'com.h2database:h2:2.1.214'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.0'
+
+    testImplementation 'net.serenity-bdd:serenity-cucumber6:2.6.0'
+    testImplementation 'net.serenity-bdd:serenity-screenplay:2.6.0'
+    testImplementation 'net.serenity-bdd:serenity-screenplay-rest:2.6.0'
+    testImplementation 'net.serenity-bdd:serenity-rest-assured:2.6.0'
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'io.rest-assured:rest-assured:4.3.3'
+}
+
+test {
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+}
+test.finalizedBy(aggregate)
+
+serenity {
+    reports = ["single-page-html"]
+}
+
+gradle.startParameter.continueOnFailure = true
+
+
+------------------------------------
