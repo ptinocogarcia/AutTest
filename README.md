@@ -7,6 +7,6 @@
 Este espacio Incluye los siguientes entregables o artefactos:
 
 - [x] -Parte Teorica :tada:
-- [ ] Proyecto JMeter :tada:
-- [ ] Reporte HTML generado en JMeter :tada:
+- [x] Proyecto JMeter :tada:
+- [x] Reporte HTML generado en JMeter :tada:
 - [ ] Aporte del proyecto desarrollo automatización ❎
