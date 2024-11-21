@@ -5,7 +5,8 @@
 ### Pedro Rafael Tinoco Garcia
 
 Este espacio Incluye lo Siguiente:
--Parte Teorica
--Proyecto JMeter
--Reporte HTML generado en JMeter
--Aporte del proyecto desarrollo automatización
+
+- [x] -Parte Teorica :tada:
+- [ ] Proyecto JMeter :tada:
+- [ ] Reporte HTML generado en JMeter :tada:
+- [ ] Aporte del proyecto desarrollo automatización ❎
