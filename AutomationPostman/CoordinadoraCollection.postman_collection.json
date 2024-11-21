@@ -1,0 +1,226 @@
+{
+	"info": {
+		"_postman_id": "e5220570-1424-45ee-84b2-1a07e0a1012c",
+		"name": "CoordinadoraCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25701601"
+	},
+	"item": [
+		{
+			"name": "GestionarRecogidaValoresVacios",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Codigo 400 - BAD MESSAGE\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Debe incluir el mensaje\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Los valores de entrada no son correctos.\");\r",
+							"});\r",
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>Column 1</th>\r",
+							"        <th>Column 2</th>\r",
+							"        <th>Column 3</th>\r",
+							"        <th>Column 4</th>\r",
+							"    </tr>\r",
+							"    \r",
+							"    {{#each response}}\r",
+							"        <tr>\r",
+							"            <td>{{property1}}</td>\r",
+							"            <td>{{property2}}</td>\r",
+							"            <td>{{property3}}</td>\r",
+							"            <td>{{property4}}</td>\r",
+							"        </tr>\r",
+							"    {{/each}}\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    var res = pm.response.json();\r",
+							"    // Filter and update response data as needed\r",
+							"    var visualizerData = res; // Update this line with the actual response data and structure\r",
+							"    return {response: visualizerData};\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());\r",
+							"\r",
+							"pm.test(\"Response status code is 400\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(400);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is within acceptable range\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response includes the required fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.include.all.keys('property1', 'property2', 'property3', 'property4');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Verify the expected number of elements in the array\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    pm.expect(responseData).to.have.lengthOf(5);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Property1, property2, property3, and property4 are non-empty strings\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.property1).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+							"    pm.expect(responseData.property2).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+							"    pm.expect(responseData.property3).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+							"    pm.expect(responseData.property4).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains a specific value\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  pm.expect(responseData.property1).to.include('specificValue');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tipoEnvio\": \"1\",\r\n    \"tipoProducto\": \"4\",\r\n    \"indicativo\": \"57\",\r\n    \"tipoDocumento\": \"13\",\r\n    \"email\": \"correo@correo.com\",\r\n    \"personaEntrega\": \"1\",\r\n    \"indicativoEntrega\": \"57\",\r\n    \"medidasAproximadas\": [\r\n        {\r\n            \"id\": 2,\r\n            \"tipoPaq\": \"Par de zapatos\",\r\n            \"nombrePaq\": \"Par de za...\",\r\n            \"cantidad\": 1\r\n        }\r\n    ],\r\n    \"ciudad\": \"Envigado (Ant)\",\r\n    \"via\": \"\",\r\n    \"numero\": \"\",\r\n    \"detalle\": \"PARQUE SAN JOSE BOD 14\",\r\n    \"tipoVia\": 16,\r\n    \"nombres\": \"prueba\",\r\n    \"apellidos\": \"prueba1\",\r\n    \"documento\": \"1036149000\",\r\n    \"celular\": \"3005777777\",\r\n    \"ciudadDetalle\": {\r\n        \"nombre_terminal_operativa\": \"Medellin\",\r\n        \"tipo_servicio\": \"A\",\r\n        \"dane_ciudad\": \"05266\",\r\n        \"dane_actual\": \"05266000\",\r\n        \"ciudad_tarifa\": \"05266000\",\r\n        \"sms\": true,\r\n        \"cubre_mqp\": true,\r\n        \"codigo_postal\": \"055428\",\r\n        \"terminal_operativa\": 2,\r\n        \"cubre_me\": true,\r\n        \"area_telefono\": 4,\r\n        \"observaciones2\": \"FCE - RD - FD - RCE\",\r\n        \"codigo\": \"05266000\",\r\n        \"tipo_poblacion\": \"D\",\r\n        \"activo\": true,\r\n        \"codigo_terminal\": 2,\r\n        \"codigo_interno\": 204,\r\n        \"mensajeria\": true,\r\n        \"cubre_mm\": false,\r\n        \"departamento\": \"05\",\r\n        \"cubre_cm\": false,\r\n        \"nombre\": \"Envigado (Ant)\",\r\n        \"abreviado\": \"ENVIGADO\",\r\n        \"nombre_terminal\": \"Medellin\",\r\n        \"observaciones\": \"\"\r\n    },\r\n    \"direccion\": \"{{direccionVoid}}\",\r\n    \"fechaRecogida\": \"{{fechaRecogidaVoid}}\",\r\n    \"nombreEntrega\": \"{{nombreEntregaVoid}}\",\r\n    \"apellidosEntrega\": \"{{apellidosEntregaVoid}}\",\r\n    \"celularEntrega\": \"{{celularEntregaVoid}}\",\r\n    \"emailUsuario\": \"{{emailUsuarioVoid}}\",\r\n    \"descripcionTipoVia\": \"{{descripcionTipoViaVoid}}\",\r\n    \"aplicativo\": \"{{aplicativoVoid}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{coordinadoraURLRecogida}}",
+					"protocol": "https",
+					"host": [
+						"{{coordinadoraURLRecogida}}"
+					]
+				},
+				"description": "The API endpoint makes an HTTP POST request to the specified URL. The request payload is in raw format and includes various parameters such as tipoEnvio, tipoProducto, indicativo, tipoDocumento, email, personaEntrega, medidasAproximadas, ciudad, via, numero, detalle, nombres, apellidos, documento, celular, ciudadDetalle, direccion, fechaRecogida, nombreEntrega, apellidosEntrega, celularEntrega, emailUsuario, descripcionTipoVia, and aplicativo.\n\nThe user has requested to document the response of this request as a JSON schema."
+			},
+			"response": []
+		},
+		{
+			"name": "ValidarCamposCorrectos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tipoEnvio\": \"1\",\r\n    \"tipoProducto\": \"4\",\r\n    \"indicativo\": \"57\",\r\n    \"tipoDocumento\": \"13\",\r\n    \"email\": \"correo@correo.com\",\r\n    \"personaEntrega\": \"1\",\r\n    \"indicativoEntrega\": \"57\",\r\n    \"medidasAproximadas\": [\r\n        {\r\n            \"id\": 2,\r\n            \"tipoPaq\": \"Par de zapatos\",\r\n            \"nombrePaq\": \"Par de za...\",\r\n            \"cantidad\": 1\r\n        }\r\n    ],\r\n    \"ciudad\": \"Envigado (Ant)\",\r\n    \"via\": \"\",\r\n    \"numero\": \"\",\r\n    \"detalle\": \"PARQUE SAN JOSE BOD 14\",\r\n    \"tipoVia\": 16,\r\n    \"nombres\": \"prueba\",\r\n    \"apellidos\": \"prueba1\",\r\n    \"documento\": \"1036149000\",\r\n    \"celular\": \"3005777777\",\r\n    \"ciudadDetalle\": {\r\n        \"nombre_terminal_operativa\": \"Medellin\",\r\n        \"tipo_servicio\": \"A\",\r\n        \"dane_ciudad\": \"05266\",\r\n        \"dane_actual\": \"05266000\",\r\n        \"ciudad_tarifa\": \"05266000\",\r\n        \"sms\": true,\r\n        \"cubre_mqp\": true,\r\n        \"codigo_postal\": \"055428\",\r\n        \"terminal_operativa\": 2,\r\n        \"cubre_me\": true,\r\n        \"area_telefono\": 4,\r\n        \"observaciones2\": \"FCE - RD - FD - RCE\",\r\n        \"codigo\": \"05266000\",\r\n        \"tipo_poblacion\": \"D\",\r\n        \"activo\": true,\r\n        \"codigo_terminal\": 2,\r\n        \"codigo_interno\": 204,\r\n        \"mensajeria\": true,\r\n        \"cubre_mm\": false,\r\n        \"departamento\": \"05\",\r\n        \"cubre_cm\": false,\r\n        \"nombre\": \"Envigado (Ant)\",\r\n        \"abreviado\": \"ENVIGADO\",\r\n        \"nombre_terminal\": \"Medellin\",\r\n        \"observaciones\": \"\"\r\n    },\r\n    \"direccion\": \"{{direccion}}\",\r\n    \"fechaRecogida\": \"{{fechaRecogida}}\",\r\n    \"nombreEntrega\": \"{{nombreEntrega}}\",\r\n    \"apellidosEntrega\": \"{{apellidosEntrega}}\",\r\n    \"celularEntrega\": \"{{celularEntrega}}\",\r\n    \"emailUsuario\": \"{{emailUsuario}}\",\r\n    \"descripcionTipoVia\": \"{{descripcionTipoVia}}\",\r\n    \"aplicativo\": \"{{aplicativo}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{coordinadoraURLRecogida}}",
+					"protocol": "https",
+					"host": [
+						"{{coordinadoraURLRecogida}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ValidarEntregasDuplicadas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Codigo respuesta es 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Valida el error de duplicado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Error, Ya existe una recogida programada para hoy\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"data\");\r",
+							"});\r",
+							"//postman.setEnvironmentVariable(\"token\", data.token);\r",
+							"//postman.setEnvironmentVariable(\"idRecogidaAnterior\", data.idRecogidaAnterior);\r",
+							"var data = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"token\", data.token);\r",
+							"pm.collectionVariables.set(\"idRecogidaAnterior\", data.idRecogidaAnterior);\r",
+							"console.log(data)\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tipoEnvio\": \"1\",\r\n    \"tipoProducto\": \"4\",\r\n    \"indicativo\": \"57\",\r\n    \"tipoDocumento\": \"13\",\r\n    \"email\": \"correo@correo.com\",\r\n    \"personaEntrega\": \"1\",\r\n    \"indicativoEntrega\": \"57\",\r\n    \"medidasAproximadas\": [\r\n        {\r\n            \"id\": 2,\r\n            \"tipoPaq\": \"Par de zapatos\",\r\n            \"nombrePaq\": \"Par de za...\",\r\n            \"cantidad\": 1\r\n        }\r\n    ],\r\n    \"ciudad\": \"Envigado (Ant)\",\r\n    \"via\": \"\",\r\n    \"numero\": \"\",\r\n    \"detalle\": \"PARQUE SAN JOSE BOD 14\",\r\n    \"tipoVia\": 16,\r\n    \"nombres\": \"prueba\",\r\n    \"apellidos\": \"prueba1\",\r\n    \"documento\": \"1036149000\",\r\n    \"celular\": \"3005777777\",\r\n    \"ciudadDetalle\": {\r\n        \"nombre_terminal_operativa\": \"Medellin\",\r\n        \"tipo_servicio\": \"A\",\r\n        \"dane_ciudad\": \"05266\",\r\n        \"dane_actual\": \"05266000\",\r\n        \"ciudad_tarifa\": \"05266000\",\r\n        \"sms\": true,\r\n        \"cubre_mqp\": true,\r\n        \"codigo_postal\": \"055428\",\r\n        \"terminal_operativa\": 2,\r\n        \"cubre_me\": true,\r\n        \"area_telefono\": 4,\r\n        \"observaciones2\": \"FCE - RD - FD - RCE\",\r\n        \"codigo\": \"05266000\",\r\n        \"tipo_poblacion\": \"D\",\r\n        \"activo\": true,\r\n        \"codigo_terminal\": 2,\r\n        \"codigo_interno\": 204,\r\n        \"mensajeria\": true,\r\n        \"cubre_mm\": false,\r\n        \"departamento\": \"05\",\r\n        \"cubre_cm\": false,\r\n        \"nombre\": \"Envigado (Ant)\",\r\n        \"abreviado\": \"ENVIGADO\",\r\n        \"nombre_terminal\": \"Medellin\",\r\n        \"observaciones\": \"\"\r\n    },\r\n    \"direccion\": \"{{direccion}}\",\r\n    \"fechaRecogida\": \"{{fechaRecogida}}\",\r\n    \"nombreEntrega\": \"{{nombreEntrega}}\",\r\n    \"apellidosEntrega\": \"{{apellidosEntrega}}\",\r\n    \"celularEntrega\": \"{{celularEntrega}}\",\r\n    \"emailUsuario\": \"{{emailUsuario}}\",\r\n    \"descripcionTipoVia\": \"{{descripcionTipoVia}}\",\r\n    \"aplicativo\": \"{{aplicativo}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{coordinadoraURLRecogida}}",
+					"protocol": "https",
+					"host": [
+						"{{coordinadoraURLRecogida}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "idRecogidaAnterior",
+			"value": ""
+		}
+	]
+}
