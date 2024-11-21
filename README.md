@@ -4,7 +4,7 @@
 
 ### Pedro Rafael Tinoco Garcia
 
-Este espacio Incluye lo Siguiente:
+Este espacio Incluye los siguientes entregables o artefactos:
 
 - [x] -Parte Teorica :tada:
 - [ ] Proyecto JMeter :tada:
